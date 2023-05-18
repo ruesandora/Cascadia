@@ -259,5 +259,26 @@ cascadiad tx bank send rues gönderilecek_adres 1000000000000000000aCC --gas aut
 
 # Jailden kurtulma
 cascadiad tx slashing unjail --from rues --gas auto --gas-adjustment=1.2 --gas-prices=7aCC
+```
 
-!!! Save priv\_validator\_key.json which is located in /root/.cascadiad/config
+## Oylamalar önemli oluyor bazı zamanlar puan alıyoruz
+```sh
+# Oylamaları listeleme
+cascadiad q gov proposals
+
+# Oy verme, 1 yazan yerde oylama numarası, bu 18'de olabilir. Yes yazan yerede yes veya no olarak belirtin oyunuza göre.
+cascadiad tx gov vote 1 yes --from cascadia_adresiniz
+```
+
+## Node'u silmek
+```sh
+# Bu komutu sona bıraktım, çok zorda kalmadığınız sürece silmeyin, hemen pes etmeyin.
+sudo systemctl stop cascadiad && \
+sudo systemctl disable cascadiad && \
+rm /etc/systemd/system/cascadiad.service && \
+sudo systemctl daemon-reload && \
+cd $HOME && \
+rm -rf cascadia && \
+rm -rf .cascadiad && \
+rm -rf $(which cascadiad)
+```

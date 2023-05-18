@@ -169,6 +169,20 @@ systemctl restart cascadiad && journalctl -u cascadiad -f -o cat
 journalctl -u cascadiad -f -o cat
 # [Explorer Linki](https://validator.cascadia.foundation/validators/cascadiavaloper1s03cy478zv9w4sf9hkwl8dlvx82ncsxayrwmgj) Güncel blok 622k, 1 saate eşleşir tahminim.
 ```
+
+<h1 align="center"> Eşleşirken hata alırsanız </h1>
+
+```sh
+sudo systemctl stop cascadiad
+cp $HOME/.cascadiad/data/priv_validator_state.json $HOME/.cascadiad/priv_validator_state.json.backup
+rm -rf $HOME/.cascadiad/data
+
+curl -L https://snap.hexnodes.co/cascadia/cascadia.latest.tar.lz4 | tar -Ilz4 -xf - -C $HOME/.cascadiad
+mv $HOME/.cascadiad/priv_validator_state.json.backup $HOME/.cascadiad/data/priv_validator_state.json
+
+sudo systemctl start cascadiad && sudo journalctl -fu cascadiad -o cat
+```
+
 <h1 align="center"> Eşleşirken Geri Kalan İşlemler </h1>
 
 ```shsh

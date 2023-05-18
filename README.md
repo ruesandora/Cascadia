@@ -228,7 +228,6 @@ cascadiad tx staking create-validator \
 --gas auto \
 --gas-adjustment=1.2 \
 --gas-prices=7aCC \
---broadcast-mode block
 -y
 
 # Şart değil dediğim yerleri doldurmayacaksanız eğer silip "" tırnakları boş bırakın

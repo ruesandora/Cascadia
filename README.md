@@ -1,0 +1,2 @@
+# Cascadia
+Cascadia node setup

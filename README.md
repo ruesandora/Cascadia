@@ -71,6 +71,7 @@ cascadiad version --long | grep -e version -e commit
 ```sh
 # İnitalize işlemi yapalım
 cascadiad init $CASCADIA_MONIKER --chain-id $CASCADIA_CHAIN_ID
+# Uzun bir çıktı alacaksınız
 ```
 
 ```sh

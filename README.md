@@ -220,3 +220,5 @@ cascadiad tx staking create-validator \
 ```
 
 > İhtiyaç olabilecek yardımcı komutlar [linki](https://github.com/ruesandora/Cascadia/blob/main/yard%C4%B1mc%C4%B1_komutlar.md)
+
+> Bu repoları forklayın - yıldızlayın github profiliniz boş durmasın.

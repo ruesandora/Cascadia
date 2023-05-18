@@ -217,6 +217,7 @@ cascadiad tx staking create-validator \
 -y
 
 # Şart değil dediğim yerleri doldurmayacaksanız eğer silip "" tırnakları boş bırakın
+# Validatör oluşturduktan sonra discord-validatör kanallarına explorer'dan validatorünüzün linkini atın ve rolü alın.
 ```
 
 > İhtiyaç olabilecek yardımcı komutlar [linki](https://github.com/ruesandora/Cascadia/blob/main/yard%C4%B1mc%C4%B1_komutlar.md)

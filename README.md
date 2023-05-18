@@ -1,6 +1,7 @@
 <h1 align="center"> Cascadia - DevNet </h1>
 
-## Neden Cascadi node'u kuruyorum?
+<h1 align="center"> Neden Cascadi node'u kuruyorum? </h1>
+
 > Uzun bir süredir Cascadia DevNet'te, [burada](https://twitter.com/Ruesandora0/status/1592480840512311299?s=20) paylaşmıştım, kontrol edin.
 
 > Yakında Cascadia incentivize testnete geçiş yapacak, ben şahsen katılacağım.
@@ -8,6 +9,17 @@
 > Yakında geçiş yapacağı ve kısa süreceği için, validatör rolünü almak içini kurdum, başka nedeni yok.
 
 > Topluluk kanalları: [Duyuru kanalım](https://t.me/RuesAnnouncement) - [Sohbet kanalı](https://t.me/RuesChat) - [Cascadia Discord](https://discord.gg/cascadia)
+
+> İhtiyaç olabilecek yardımcı komutlar [linki](https://github.com/ruesandora/Cascadia/blob/main/yard%C4%B1mc%C4%B1_komutlar.md)
+
+## <h1 align="center"> Donanım </h1>
+> Sunucu temin edemiyorsanız ve para vermek istemiyorsanız [Hetzner $20](https://hetzner.cloud/?ref=gIFAhUnYYjD3) veriyor.
+```
+# Hetzner'den 3 GPU 4 RAM sunucuya kurdum, sıkıntısız çalışıyor. 
+# 3 dolarlık sunucu dahi kaldırır tahminim, ben yinede 7$ olanı kullandım.
+# Sunucuyu beğenmezsen kapatıp yenisini açabilirsin, hetznerde saatlik ücret var, aylık yok. Sanırım bir kaç saat kullanmaya da bir şey almıyor.
+```
+![image](https://github.com/ruesandora/Cascadia/assets/101149671/a15c7404-3bab-4b79-8bfa-cc0aad56be1c)
 
 ```sh
 # Sunucumuzu güncelleyelim
@@ -32,7 +44,8 @@ go version
 # go version sonrası çıktı: go version go1.20.2 linux/amd64
 ```
 
-## Değişkenleri ayarlıyoruz
+<h1 align="center"> Değişkenleri Ayarlayalım </h1>
+
 ```sh
 # Validator_İsmi kısmına validatör (moniker) belirleyin.
 CASCADIA_MONIKER=VALİDATOR_İSMİ
@@ -69,7 +82,8 @@ sha256sum $HOME/.cascadiad/config/genesis.json
 # çıktı: 74ea3c84182028300d0c101c5cf017a055782c595ed91e4be3638380f0169582
 ```
 
-## Portları, peerleri ve config dosyalarını ayarlıyoruz
+<h1 align="center"> Portları, Peerleri ve Config Dosyaları </h1>
+
 ```sh
 # config.toml
 sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:${CASCADIA_PORT}658\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:${CASCADIA_PORT}657\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:${CASCADIA_PORT}061\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:${CASCADIA_PORT}656\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":${CASCADIA_PORT}660\"%" $HOME/.cascadiad/config/config.toml
@@ -84,7 +98,7 @@ external_address=$(wget -qO- eth0.me)
 sed -i.bak -e "s/^external_address *=.*/external_address = \"$external_address:${CASCADIA_PORT}656\"/" $HOME/.cascadiad/config/config.toml
 ```
 
-## config yapılandırmaları
+<h1 align="center"> Config Yapılandırmaları </h1>
 
 ```sh
 cascadiad config chain-id $CASCADIA_CHAIN_ID
@@ -113,9 +127,8 @@ pruning_interval="10"
 sed -i -e "s/^pruning *=.*/pruning = \"$pruning\"/" $HOME/.cascadiad/config/app.toml
 sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"$pruning_keep_recent\"/" $HOME/.cascadiad/config/app.toml
 sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"$pruning_interval\"/" $HOME/.cascadiad/config/app.toml
-```
+
 # İndexeri kaldıralım, opsiyoneldir
-```sh
 indexer="null" && \
 sed -i -e "s/^indexer *=.*/indexer = \"$indexer\"/" $HOME/.cascadiad/config/config.toml
 ```
@@ -155,7 +168,8 @@ systemctl restart cascadiad && journalctl -u cascadiad -f -o cat
 journalctl -u cascadiad -f -o cat
 # [Explorer Linki](https://validator.cascadia.foundation/validators/cascadiavaloper1s03cy478zv9w4sf9hkwl8dlvx82ncsxayrwmgj) Güncel blok 622k, 1 saate eşleşir tahminim.
 ```
-## Eşleşirken geri kalan işlemleri yapalım
+<h1 align="center"> Eşleşirken Geri Kalan İşlemler </h1>
+
 ```shsh
 # Statusu kontrol etme
 curl localhost:${CASCADIA_PORT}657/status
@@ -179,7 +193,8 @@ cascadiad query bank balances cüzdan_adresiniz
 # Güncel blokta değilseniz explorer'dan bakınız.
 ```
 
-## Validatör oluşturalım:
+<h1 align="center"> Validatör Oluşturma </h1>
+
 ```sh
 # sync olduktan yani false çıktısı verdikten sonra yapıyoruz burayı.
 cascadiad tx staking create-validator \
@@ -204,81 +219,4 @@ cascadiad tx staking create-validator \
 # Şart değil dediğim yerleri doldurmayacaksanız eğer silip "" tırnakları boş bırakın
 ```
 
-## İhtiyaç olabilecek komutlar:
-
-```sh
-# Validatör düzenleme
-cascadiad tx staking edit-validator \
-  --new-moniker=$CASCADIA_MONIKER \
-  --website="" \
-  --identity=<"" \
-  --details="" \
-  --chain-id=$CASCADIA_CHAIN_ID \
-  --gas auto \
-  --gas-adjustment=1.2 \
-  --gas-prices=7aCC \
-  --from=wallet
-
-# Olduğun bloğu kontrol etme
-cascadiad status 2>&1 | jq ."SyncInfo"."latest_block_height"
-
-# Node durumu
-cascadiad status 2>&1 | jq .SyncInfo
-
-# Validatör pubkeyi görme
-cascadiad tendermint show-validator
-
-# txhash bilgisi kontrol etme
-cascadiad q tx tx_hash
-
-# Validatörün kaç blok kaçırdı, jail  bilgisi ve bir kaç yardımcı bilgi.
-cascadiad q slashing signing-info $(cascadiad tendermint show-validator)
-
-# Cüzdanları listeleme
-cascadiad keys list
-
-# Cüzdan silmek isterseniz
-cascadiad keys delete cüzdan_ismi
-```
-## Validatör yönetimi hakkında komutlar (kendinize göre düzenlemeyi unutmayın)
-```sh
-# Tüm blok ödüllerini toplamak için
-cascadiad tx distribution withdraw-all-rewards --from rues --gas auto --gas-adjustment=1.2 --gas-prices=7aCC -y
-
-# Kendine delege etmek için. 1000000000000000000aCC = 1 Cascadia token
-cascadiad tx staking delegate $CASCADIA_VALOPER 1000000000000000000aCC --from rues --gas auto --gas-adjustment=1.2 --gas-prices=7aCC -y
-
-# Redelegasyon
-cascadiad tx staking redelegate delegasyon_adresi redelege_edilecek_adres 1000000000000000000aCC --from rues --gas auto --gas-adjustment=1.2 --gas-prices=7aCC -y
-
-# Undelege
-cascadiad tx staking unbond undelege_edilecek_adres 1000000000000000000aCC --from rues --gas auto --gas-adjustment=1.2 --gas-prices=7aCC -y
-
-# Transfer işlemi
-cascadiad tx bank send rues gönderilecek_adres 1000000000000000000aCC --gas auto --gas-adjustment=1.2 --gas-prices=7aCC -y
-
-# Jailden kurtulma
-cascadiad tx slashing unjail --from rues --gas auto --gas-adjustment=1.2 --gas-prices=7aCC
-```
-
-## Oylamalar önemli oluyor bazı zamanlar puan alıyoruz
-```sh
-# Oylamaları listeleme
-cascadiad q gov proposals
-
-# Oy verme, 1 yazan yerde oylama numarası, bu 18'de olabilir. Yes yazan yerede yes veya no olarak belirtin oyunuza göre.
-cascadiad tx gov vote 1 yes --from cascadia_adresiniz
-```
-
-## Node'u silmek
-```sh
-# Bu komutu sona bıraktım, çok zorda kalmadığınız sürece silmeyin, hemen pes etmeyin.
-sudo systemctl stop cascadiad && \
-sudo systemctl disable cascadiad && \
-rm /etc/systemd/system/cascadiad.service && \
-sudo systemctl daemon-reload && \
-cd $HOME && \
-rm -rf cascadia && \
-rm -rf .cascadiad && \
-rm -rf $(which cascadiad)
-```
+> İhtiyaç olabilecek yardımcı komutlar [linki](https://github.com/ruesandora/Cascadia/blob/main/yard%C4%B1mc%C4%B1_komutlar.md)

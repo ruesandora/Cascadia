@@ -198,7 +198,7 @@ cascadiad keys add rues
 # rues kısmına wallet isminizi girin ve kaydedin bilgilerinizi.
 
 # Recover yapmak isterseniz
-cascadiad keys add rues –-recover
+cascadiad keys add rues --recover
 # Cüzdan bilgileriniz ile faucetten token alın, discorda mevcut.
 ```
 ```sh 
